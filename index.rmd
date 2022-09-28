@@ -14,16 +14,15 @@ library(viridis)
 library(plotly)
 ```
 
-Data: https://www.kaggle.com/datasets/szrlee/stock-time-series-20050101-to-20171231?resource=download
+The data is used for this dynamic figure is stock market data from the start of 2006 to the end of 2018.  The dataset is on Kaggle and can be found at https://www.kaggle.com/datasets/szrlee/stock-time-series-20050101-to-20171231?resource=download.  The dataset consists of data for thirty different stocks and I chose to use a subset of five stocks including Home Depot, Apple, Microsoft, Walmart and McDonalds and shortened the time to the start of 2015 and ending at the end of 2018.  This made the figures easier to read and interact with.    
 
-```{r}
+```{r warning = FALSE}
 stocks = read.csv("Data/all_stocks_2006-01-01_to_2018-01-01.csv")
 stocks = stocks %>%
   mutate(Date = as.Date(Date)) %>%
   filter(Name == c("HD", "AAPL", "MSFT", "WMT", "MCD")) %>%
   filter(Date >= "2015-01-01")
 head(stocks)
-
 ```
 
 ```{r}
@@ -34,8 +33,8 @@ stocks_plot = ggplot(data = stocks, aes(x=Date, y = Close, color = Name)) +
                minor_breaks = "1 month",
                date_labels = "%Y",
                limits=c(as.Date("2015-01-01"), NA)) +
-  ylab("Closing Price") + xlab("") +
-  ggtitle("Stock Information for Several Large Companies") +
+  ylab("Price") + xlab("") +
+  ggtitle("Price for Several Large Companies") +
   scale_color_viridis(discrete = TRUE) +
   guides(color=guide_legend(title="Ticker"))
 
@@ -47,28 +46,42 @@ volume_plot = ggplot(data = stocks, aes(x=Date, y = Volume/1000000, color = Name
                date_labels = "%Y",
                limits=c(as.Date("2015-01-01"), NA)) +
   ylab("Volume  (in millions)") + xlab("") +
+  ggtitle("Volume for Several Large Companies") +
   scale_color_viridis(discrete = TRUE) +
   guides(color=guide_legend(title="Ticker"))
 
 stocks_plotly = ggplotly(stocks_plot) 
 volume_plotly = ggplotly(volume_plot)
+```
 
+
+```{r}
 stocks_plotly
+```
+
+In this first figure, I wanted to convey the rise of these stock prices over three years.  This figure is meant to be simple and clearly show the price movement for the five selected companies.  Only the date, price and company name are displayed for each point and the ability to display or remove companies allow for easy access to a specific company.  
+
+
+```{r}
 volume_plotly
 ```
+
+Very similar to the price figure, this plot is meant to convey the volumes for the same five companies over a time frame of three years.  Volume can sometimes be an indicator of large price movements in stocks so showing volume spikes can be interesting. Like above, the formatting and functionality are simple and clean but demonstrate the volume movements effectively with labeled data points.   
+
 
 
 ```{r}
 stocks_plty_facet <- subplot(list(stocks_plotly,volume_plotly),
                               nrows = 2, 
                               shareX = TRUE,
-                              titleX = TRUE) %>%
+                              titleX = FALSE) %>%
   rangeslider() %>%
   layout(hovermode = "x")
-
 stocks_plty_facet
 
 ```
+### Disclaimer: "Autoscale" (button in top right corner) this figure immediately to have it shown correctly              
+This figure builds off of the previous figures while also incorporating the relationship between price and volume.  By stacking them and showing them in the same figure, it is a lot easier to convey the relationship between volume and price of stocks.  By also adding a rangefinder, the reader is able to zoom in on specific dates and see the effect of volume on price.  This figure shows the most information so it is important to select and unselect tickers to get a perspective on individual charts.  
 
 
 ```{r}
@@ -112,7 +125,7 @@ plty_facet
 
 ```
 
-
+Lastly, I wanted to try the plot_ly() function instead of converting from ggplots.  This figure conveys information only for Apple.  The functionality I added to this figure is the automated buttons in the top left.  I found this function very useful to easier access a certain time frame and with stocks specifically, the perspective of determined time frames is very important in a buy/sell decision.  If the data was current, a YTD button would be very useful.  Also, the information displayed for each data point is a lot cleaner as Apple is the only company being shown.  Thus, the company name isn't needed and just the volume or price can be shown.  
 
 
 
