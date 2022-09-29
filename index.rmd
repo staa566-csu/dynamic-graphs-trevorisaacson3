@@ -14,7 +14,7 @@ library(viridis)
 library(plotly)
 ```
 
-The data is used for this dynamic figure is stock market data from the start of 2006 to the end of 2018.  The dataset is on Kaggle and can be found at https://www.kaggle.com/datasets/szrlee/stock-time-series-20050101-to-20171231?resource=download.  The dataset consists of data for thirty different stocks and I chose to use a subset of five stocks including Home Depot, Apple, Microsoft, Walmart and McDonalds and shortened the time to the start of 2015 and ending at the end of 2018.  This made the figures easier to read and interact with.    
+The data used for this dynamic figure is stock market data from the start of 2006 to the end of 2018.  The dataset is on Kaggle and can be found at https://www.kaggle.com/datasets/szrlee/stock-time-series-20050101-to-20171231?resource=download.  The dataset consists of data for thirty different stocks and I chose to use a subset of five stocks including Home Depot, Apple, Microsoft, Walmart and McDonalds and shortened the time to the start of 2015 and ending at the end of 2018.  This made the figures easier to read and interact with.  Variables include date, open, close, high and low price for each day along with the volume.  
 
 ```{r warning = FALSE}
 stocks = read.csv("Data/all_stocks_2006-01-01_to_2018-01-01.csv")
@@ -125,7 +125,7 @@ plty_facet
 
 ```
 
-Lastly, I wanted to try the plot_ly() function instead of converting from ggplots.  This figure conveys information only for Apple.  The functionality I added to this figure is the automated buttons in the top left.  I found this function very useful to easier access a certain time frame and with stocks specifically, the perspective of determined time frames is very important in a buy/sell decision.  If the data was current, a YTD button would be very useful.  Also, the information displayed for each data point is a lot cleaner as Apple is the only company being shown.  Thus, the company name isn't needed and just the volume or price can be shown.  
+Lastly, I wanted to try the plot_ly() function instead of converting from ggplots.  This figure conveys information only for Apple.  The functionality I added to this figure is the automated buttons in the top left.  I found this function very useful to easily access a certain time frame and with stocks specifically, the perspective of determined time frames is very important in a buy/sell decision.  If the data was current, a YTD button would be very useful.  Also, the information displayed for each data point is a lot cleaner as Apple is the only company being shown.  Thus, the company name isn't needed and just the volume or price can be shown.  
 
 
 
